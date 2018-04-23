@@ -5,15 +5,15 @@ import glob
 import random
 from math import log10
 from collections import defaultdict
+from typing import Dict, List
 
 class NBClassifier:
     """Implements a Naïve Bayes Classifier"""
 
-    def __init__(self, **documents):
+    def __init__(self, documents: Dict[str, List[str]]):
         """
         Trains the classifier.
 
-        @type documents: {str: list(str)}
         @param documents: class label -> [path_to_doc_1, path_to_doc_2, ...]
         """
         self._classes = documents.keys()
@@ -36,7 +36,7 @@ class NBClassifier:
             for word in self.vocabulary():
                 self._loglikelihood[current_class][word] = log10((self._word_freqs[current_class][word] + 1) / num_words)
 
-    def classify(self, document):
+    def classify(self, document: str):
         """
         Returns the most likely class label for @param document.
         """
@@ -50,7 +50,7 @@ class NBClassifier:
         log_probabilities_per_class = {c: _get_log_probability(c, document) for c in self.classes}
         return sorted(log_probabilities_per_class, key=log_probabilities_per_class.get, reverse=True)[0]
 
-    def evaluate(self, **documents):
+    def evaluate(self, documents: Dict[str, List[str]]):
         """
         Evaluates the classifier.
 
@@ -101,7 +101,7 @@ class NBClassifier:
         return self._classes
 
     @staticmethod
-    def _get_words(path_to_email):
+    def _get_words(path_to_email: str):
         """
         Reads an email stored at @param path_to_email. Returns the words it
         contains as a list.
@@ -114,7 +114,7 @@ class NBClassifier:
         return words
 
     @staticmethod
-    def _get_word_freqs(path_to_email):
+    def _get_word_freqs(path_to_email: str):
         """
         Reads an email stored at @param path_to_email. Returns the words it
         contains, alongside their frequency.
@@ -150,7 +150,7 @@ if __name__ == "__main__":
           .format(num_docs, num_train, num_eval))
     print("Training...")
     # train
-    classifier = NBClassifier(**docs_train)
+    classifier = NBClassifier(docs_train)
     # evaluate
     print("Evaluating...")
-    classifier.evaluate(**docs_eval)
+    classifier.evaluate(docs_eval)

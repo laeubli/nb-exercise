@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 
 import os
 import glob
@@ -39,10 +39,10 @@ class NBClassifier:
         def _get_log_probability(current_class, document):
             log_probability = self._logprior[current_class]
             for word in self._get_words(document):
-                if word in self.vocabulary(): # slow, but easy to understand
+                if word in self.vocabulary: # slow, but easy to understand
                     log_probability += self._loglikelihood[current_class][word]
             return log_probability
-        log_probabilities_per_class = {c: _get_log_probability(c, document) for c in self.classes()}
+        log_probabilities_per_class = {c: _get_log_probability(c, document) for c in self.classes}
         return sorted(log_probabilities_per_class, key=log_probabilities_per_class.get, reverse=True)[0]
 
     def evaluate(self, **documents):
@@ -73,7 +73,7 @@ class NBClassifier:
         accuracy = num_correct / num_items
         print("Classifier accuracy: {:0.2f}%.".format(accuracy*100))
         # precision, recall, f-measure per class
-        for c in self.classes():
+        for c in self.classes:
             precision = tp[c] / (tp[c] + fp[c])
             recall = tp[c] / (tp[c] + fn[c])
             f1score = 2 * ((precision * recall) / (precision + recall))
@@ -81,12 +81,14 @@ class NBClassifier:
                 c, precision, recall, f1score
             ))
 
+    @property
     def vocabulary(self):
         """
         Returns the classifier's vocabulary.
         """
         return self._vocabulary
 
+    @property
     def classes(self):
         """
         Returns the class labels this classifier can assign.

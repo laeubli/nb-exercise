@@ -96,26 +96,26 @@ class NBClassifier:
         return self._classes
 
     @staticmethod
-    def _get_words(path_to_email: str):
+    def _get_words(path_to_document: str):
         """
-        Reads an email stored at @param path_to_email. Returns the words it
+        Reads a document stored at @param path_to_document. Returns the words it
         contains as a list.
         """
         words = []
-        with open(path_to_email, 'r') as f:
+        with open(path_to_document, 'r') as f:
             for line in f:
                 for word in line.split():
                     words.append(word)
         return words
 
     @staticmethod
-    def _get_word_freqs(path_to_email: str):
+    def _get_word_freqs(path_to_document: str):
         """
-        Reads an email stored at @param path_to_email. Returns the words it
-        contains, alongside their frequency.
+        Reads a document stored at @param path_to_document. Returns the words it
+        contains, alongside their frequency, as a dictionary.
         """
         word_freqs = defaultdict(int)
-        with open(path_to_email, 'r') as f:
+        with open(path_to_document, 'r') as f:
             for line in f:
                 for word in line.split():
                     word_freqs[word] += 1
@@ -141,7 +141,7 @@ if __name__ == "__main__":
         return formatted_docs
     docs_eval = format(docs[:num_eval])
     docs_train = format(docs[num_eval:])
-    print("Found {0} emails. Using {1} for training, {2} for evaluation."
+    print("Found {0} documents. Using {1} for training, {2} for evaluation."
           .format(num_docs, num_train, num_eval))
     print("Training...")
     # train

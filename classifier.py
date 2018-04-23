@@ -28,8 +28,9 @@ class NBClassifier:
                 for word, frequency in self._get_word_freqs(doc).items():
                     self._word_freqs[current_class][word] += frequency
                     self._vocabulary.add(word)
-        #TODO: Calculate self._logprior and self._loglikelihood for all classes
-        #      and words. Don't forget about smoothing.
+        raise NotImplementedError("Calculate self._logprior and "
+                                  "self._loglikelihood for all classes and "
+                                  "words. Don't forget about smoothing.") # TODO
 
     def classify(self, document: str):
         """

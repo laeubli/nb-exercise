@@ -32,8 +32,8 @@ class NBClassifier:
             num_docs_of_current_class = len(documents[current_class])
             self._logprior[current_class] = log10(num_docs_of_current_class / num_docs_of_any_class)
             num_words = sum(self._word_freqs[current_class].values())
-            num_words += len(self.vocabulary()) # add-1 smoothing
-            for word in self.vocabulary():
+            num_words += len(self.vocabulary) # add-1 smoothing
+            for word in self.vocabulary:
                 self._loglikelihood[current_class][word] = log10((self._word_freqs[current_class][word] + 1) / num_words)
 
     def classify(self, document: str):
